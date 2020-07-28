@@ -1,6 +1,6 @@
 import XCTest
 
-import JMATidesTests
+import SwiftySuncalcTests
 
 var tests = [XCTestCaseEntry]()
 tests += SwiftySuncalcTests.allTests()
