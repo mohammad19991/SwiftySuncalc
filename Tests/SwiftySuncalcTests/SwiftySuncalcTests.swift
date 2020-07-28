@@ -206,6 +206,14 @@ class SwiftySuncalcTests: XCTestCase {
         // Create date from components
         return Calendar.current.date(from: dateComponents)!
     }
+
+    static var allTests = [
+        ("testTimes", testTimes),
+        ("testMoonPosition", testMoonPosition),
+        ("testSunPosition", testSunPosition),
+        ("testMoonTimes", testMoonTimes),
+        ("testMoonIllumination", testMoonIllumination)
+    ]
 }
 
 extension String: Error {
