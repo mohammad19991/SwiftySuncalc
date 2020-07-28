@@ -13,7 +13,6 @@
  */
 
 import Foundation
-import os.log
 import XCTest
 @testable import SwiftySuncalc
 
@@ -79,7 +78,7 @@ class SwiftySuncalcTests: XCTestCase {
             testLat = 50.5
             testLng = 30.5
         } catch {
-            os_log("Custom date threw an exception: wrong usage!", log: OSLog.default, type: .error)
+            print("Custom date threw an exception: wrong usage!")
         }
     }
 
