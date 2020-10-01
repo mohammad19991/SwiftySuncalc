@@ -13,12 +13,12 @@
  */
 
 import Foundation
-import os.log
 import XCTest
 @testable import SwiftySuncalc
 
-class SwiftySuncalcTests: XCTestCase
-{
+// swiftlint:disable function_body_length function_parameter_count
+
+class SwiftySuncalcTests: XCTestCase {
     // Class variables for SUT testing purposes
     var suncalcTest: SwiftySuncalc!,
         // Date to test the class (to be passed)
@@ -32,13 +32,11 @@ class SwiftySuncalcTests: XCTestCase
         nightEnd: Date!, night: Date!, goldenHourEnd: Date!, goldenHour: Date!,
         // Values for moon rising and setting
         moonRise: Date!, moonSet: Date!
-    
-    override func setUp()
-    {
+
+    override func setUp() {
         super.setUp()
         suncalcTest = SwiftySuncalc()
-        do
-        {
+        do {
             // Declare the test date to be customDate's date
             try customDate = newTestDate(year: 2013, month: 3, day: 4, zone: "PDT", hour: 16,
                                          minute: 0, second: 0)
@@ -73,21 +71,18 @@ class SwiftySuncalcTests: XCTestCase
                                    hour: 15, minute: 2, second: 52)
             // Moon test times
             try moonRise = newTestDate(year: 2013, month: 3, day: 4, zone: "GMT",
-                                       hour: 23, minute: 54, second: 29)
-            try moonSet = newTestDate(year: 2013, month: 3, day: 4, zone: "GMT",
-                                      hour: 7, minute: 47, second: 58)
+                                       hour: 23, minute: 54, second: 18)
+            try moonSet = newTestDate(year: 2013, month: 3, day: 5, zone: "GMT",
+                                      hour: 8, minute: 44, second: 29)
             // Latitude and longitude tests
             testLat = 50.5
             testLng = 30.5
-        }
-        catch
-        {
-            os_log("Custom date threw an exception: wrong usage!", log: OSLog.default, type: .error)
+        } catch {
+            print("Custom date threw an exception: wrong usage!")
         }
     }
-    
-    override func tearDown()
-    {
+
+    override func tearDown() {
         suncalcTest = nil
         customDate = nil
         solarNoon = nil
@@ -108,13 +103,12 @@ class SwiftySuncalcTests: XCTestCase
         testLng = nil
         super.tearDown()
     }
-    
+
     /**
      Testing the times functionality
      */
-    func testTimes()
-    {
-        var times = suncalcTest.getTimes(date: customDate, lat: testLat, lng: testLng)
+    func testTimes() {
+        let times = suncalcTest.getTimes(date: customDate, lat: testLat, lng: testLng)
         XCTAssertEqual(times["solarNoon"], solarNoon, "Solar noon times are not equal!")
         XCTAssertEqual(times["nadir"], nadir, "Nadir times are not equal!")
         XCTAssertEqual(times["sunrise"], sunrise, "Sunrise times are not equal!")
@@ -130,50 +124,49 @@ class SwiftySuncalcTests: XCTestCase
         XCTAssertEqual(times["goldenHourEnd"], goldenHourEnd, "Golden hour end times are not equal!")
         XCTAssertEqual(times["goldenHour"], goldenHour, "Golden hour times are not equal!")
     }
-    
+
     /**
      Testing for moon positioning
      */
-    func testMoonPosition()
-    {
-        var moonPos = suncalcTest.getMoonPosition(date: customDate, lat: testLat, lng: testLng)
+    func testMoonPosition() {
+        let moonPos = suncalcTest.getMoonPosition(date: customDate, lat: testLat, lng: testLng)
         XCTAssertEqual(moonPos["azimuth"], -0.9783999522438226, "Moon azimuth position values not equal!")
         XCTAssertEqual(moonPos["altitude"], 0.014551482243892251, "Moon altitude position values not equal!")
         XCTAssertEqual(moonPos["distance"], 364121.37256256194, "Moon distance position values not equal!")
     }
-    
+
     /**
      Testing sun positioning
      */
-    func testSunPosition()
-    {
-        var sunPos = suncalcTest.getPosition(date: customDate, lat: testLat, lng: testLng)
+    func testSunPosition() {
+        let sunPos = suncalcTest.getPosition(date: customDate, lat: testLat, lng: testLng)
         XCTAssertEqual(sunPos["azimuth"], -2.5003175907168385, "Azimuth values are not equal for sun position!")
         XCTAssertEqual(sunPos["altitude"], -0.7000406838781611, "Altitude values are not equal for sun position!")
     }
-    
+
     /**
      Testing for moon times
      */
-    func testMoonTimes()
-    {
-        var moonTimes = suncalcTest.getMoonTimes(date: customDate, lat: testLat, lng: testLng)
+    func testMoonTimes() {
+        let moonTimes = suncalcTest.getMoonTimes(date: customDate, lat: testLat, lng: testLng)
         XCTAssertEqual(moonTimes["rise"], moonRise, "Moon rise times are not equal!")
         XCTAssertEqual(moonTimes["set"], moonSet, "Moon set times are not equal!")
     }
-    
+
     /**
      Testing for moon illumination values
      */
-    func testMoonIllumination()
-    {
-        var moonIllumination = suncalcTest.getMoonIllumination(date: customDate)
-        XCTAssertEqual(moonIllumination["fraction"], 0.4848068202456373, "Moon illumination fraction values are not equal!")
-        XCTAssertEqual(moonIllumination["phase"], 0.7548368838538762, "Moon illumination phase values are not equal!")
-        XCTAssertEqual(moonIllumination["angle"], 1.6732942678578346, "Moon illumination angle values are not equal!")
+    func testMoonIllumination() {
+        let moonIllumination = suncalcTest.getMoonIllumination(date: customDate)
+        XCTAssertEqual(moonIllumination["fraction"], 0.4848068202456373,
+                       "Moon illumination fraction values are not equal!")
+        XCTAssertEqual(moonIllumination["phase"], 0.7548368838538762,
+                       "Moon illumination phase values are not equal!")
+        XCTAssertEqual(moonIllumination["angle"], 1.6732942678578346,
+                       "Moon illumination angle values are not equal!")
 
     }
-    
+
     /**
     Helper function aside from the regular function signatures part of the XCTest framework to
      construct a custom date object for testing. See: https://stackoverflow.com/a/33344575/4883617
@@ -191,14 +184,12 @@ class SwiftySuncalcTests: XCTestCase
      Swift Date() object with the custom parameters specified by the caller.
      */
     func newTestDate(year: Int, month: Int, day: Int, zone: String,
-                     hour: Int, minute: Int, second: Int) throws -> Date
-    {
+                     hour: Int, minute: Int, second: Int) throws -> Date {
         // Error checking for parameters by caller
         if String(year).count != 4 || (String(month).count != 1 && String(month).count != 2)
              || (String(day).count != 1 && String(day).count != 2)  || (zone.count > 3 || zone.count < 1)
              || (String(hour).count != 1 && String(hour).count != 2) || (String(minute).count != 1
-             && String(minute).count != 2) || (String(second).count != 1 && String(second).count != 2)
-        {
+             && String(minute).count != 2) || (String(second).count != 1 && String(second).count != 2) {
             throw "Invalid length for parameters specified by the caller. See docstrings."
         }
         // Specify date components
@@ -214,9 +205,16 @@ class SwiftySuncalcTests: XCTestCase
         // Create date from components
         return Calendar.current.date(from: dateComponents)!
     }
+
+    static var allTests = [
+        ("testTimes", testTimes),
+        ("testMoonPosition", testMoonPosition),
+        ("testSunPosition", testSunPosition),
+        ("testMoonTimes", testMoonTimes),
+        ("testMoonIllumination", testMoonIllumination)
+    ]
 }
 
-extension String: Error
-{
-    
+extension String: Error {
+
 }

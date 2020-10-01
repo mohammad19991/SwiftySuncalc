@@ -1,7 +1,0 @@
-osx_image: xcode9.3
-language: objective-c
-xcode_project: SwiftySuncalc.xcodeproj
-xcode_scheme: SwiftySuncalcTests
-# Using xcodebuild instead of xctool. See https://stackoverflow.com/a/41797558
-script:
-    -  xcodebuild clean build -sdk iphonesimulator -project SwiftySuncalc.xcodeproj/ -scheme SwiftySuncalc CODE_SIGNING_REQUIRED=NO
